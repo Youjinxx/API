@@ -29,7 +29,7 @@ def movie_list_create(request):
 
 
 @permission_classes([IsAuthenticated])
-@api_view(['GET','PATCH','DELETE'])
+@api_view(['GET','PATCH','DELETE','POST'])
 def movie_detail_update_delete(request,movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
 
@@ -53,7 +53,7 @@ def movie_detail_update_delete(request,movie_pk):
 
 @permission_classes([IsAuthenticated])
 @api_view(['GET','POST'])
-def review_create(request):
+def review_create(request,movie_pk):
     if request.method == 'GET':
         reviews = Review.objects.all()
         serializer = ReviewListSerializer(reviews, many=True)
@@ -77,11 +77,11 @@ def review_detail_update_delete(request,review_pk):
     review = get_object_or_404(Review, pk=review_pk)
 
     if request.method =='GET':
-        serializer = MovieListSerializer(review)
+        serializer = ReviewListSerializer(review)
         return Response(serializer.data)
 
     elif request.method == 'PATCH':
-        serializer = MovieListSerializer(instance=review, data=request.data)
+        serializer = ReviewListSerializer(instance=review, data=request.data)
         if serializer.is_valid():
             serializer.save()
         return Response(serializer.data)

@@ -9,7 +9,7 @@ from django.conf import settings
 
 class JWTAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        access_token = request.headers.get("Authorization")
+        access_token = request.headers.get("Authorization") or request.COOKIES.get("access_token")
         if not access_token:
             return None
         return self.authenticate_credentials(access_token)

@@ -8,8 +8,6 @@ class Movie(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
-#1대1관계 게시물-댓글 모델
-
 class Review(models.Model):
     id = models.AutoField(primary_key=True)
     created_at = models.DateTimeField(auto_now_add=True)

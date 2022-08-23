@@ -1,10 +1,15 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 
 from .models import *
 from .serializer import MovieListSerializer, ReviewListSerializer
 
+from rest_framework.permissions import IsAuthenticated
 
+from django.shortcuts import render, get_object_or_404
+
+
+@permission_classes([IsAuthenticated])
 @api_view(['GET', 'POST'])
 def movie_list_create(request):
 
@@ -23,9 +28,7 @@ def movie_list_create(request):
             return Response(data=serializer.data)
 
 
-from django.shortcuts import render, get_object_or_404
-
-
+@permission_classes([IsAuthenticated])
 @api_view(['GET','PATCH','DELETE'])
 def movie_detail_update_delete(request,movie_pk):
     movie = get_object_or_404(Movie, pk=movie_pk)
@@ -48,6 +51,7 @@ def movie_detail_update_delete(request,movie_pk):
         return Response(data)
             
 
+@permission_classes([IsAuthenticated])
 @api_view(['GET','POST'])
 def review_create(request):
     if request.method == 'GET':
@@ -66,6 +70,8 @@ def review_create(request):
 
 
 
+
+@permission_classes([IsAuthenticated])
 @api_view(['GET','PATCH','DELETE'])
 def review_detail_update_delete(request,review_pk):
     review = get_object_or_404(Review, pk=review_pk)
